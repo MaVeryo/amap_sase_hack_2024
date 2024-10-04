@@ -44,39 +44,38 @@ app.post("/login", async (req, res) => {
     // express.urlencoded will put your key value pairs
     // into an object, where the key is the name of each
     // form field and the value is whatever the user entered
-    let username = req.body.user
-    let password = req.body.pass
+    let username = req.body.user;
+    let password = req.body.pass;
 
     // Find the user with the matching username
-    let user = await users.findOne({username: username, password: password})
+    let user = await users.findOne({username: username, password: password});
 
     // If a user is found, check if the password matches
     if (user != null && user.username === username && user.password === password) {
         // @ts-ignore
-        req.session.user = user.username
+        req.session.user = user.username;
         // @ts-ignore
-        req.session.login = true
+        req.session.login = true;
 
-        res.status(200).send("Login and Password correct")
+        res.status(200).send("Login and Password correct");
     } else {
         console.log("not found")
-        res.status(400).send("Either Login or Password are incorrect")
+        res.status(400).send("Either Login or Password are incorrect");
     }
 });
 
 app.post("/register", async (req, res) => {
-    console.log(req.body)
-    let username = req.body.user
-    let password = req.body.pass
+    let username = req.body.user;
+    let password = req.body.pass;
 
     // Check if the username is already taken
-    let user = await users.findOne({user: username})
+    let user = await users.findOne({username: username});
     if (user != null) {
-        res.status(400).send("Username already taken")
+        res.status(400).send("Username already taken");
     } else {
         // Add the user to the database
-        await users.insertOne({user: username, pass: password})
-        res.status(200).send("User added")
+        await users.insertOne({username: username, password: password});
+        res.status(200).send("User added");
     }
 });
 

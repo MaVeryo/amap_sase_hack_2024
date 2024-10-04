@@ -38,7 +38,7 @@ const newLogin = async function ( event: React.MouseEvent<HTMLButtonElement> ) {
         const json = {user: input.user.value, pass: input.pass.value},
             body = JSON.stringify(json);
 
-        const response = await fetch('/newLogin', {
+        const response = await fetch('/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body
@@ -58,10 +58,10 @@ export default function Login(): ReactElement {
     return (
         <div className="flex-vertical container">
             <form className="is-fullheight">
-                <h1 className="is-size-6 is-font-family-primary mb-4">Login or Create New Account</h1>
-                <div className="field">
+                <h1 className="is-size-6 is-font-family-primary mb-4">Login</h1>
+                <div className="field m-3">
                     <p className="control has-icons-left has-icons-right">
-                        <input id="username" className="input" type="text" name="username" placeholder="Username"/>
+                        <input id="username" className="input p-3 rounded-md" type="text" name="username" placeholder="Username"/>
                         <span className="icon is-small is-left">
                             <i className="fas fa-envelope"></i>
                         </span>
@@ -70,18 +70,17 @@ export default function Login(): ReactElement {
                         </span>
                     </p>
                 </div>
-                <div className="field">
+                <div className="field m-3">
                     <p className="control has-icons-left">
-                        <input className="input" id="password" type="password" name="password" placeholder="Password"/>
+                        <input className="input p-3 rounded-md" id="password" type="password" name="password" placeholder="Password"/>
                         <span className="icon is-small is-left">
                             <i className="fas fa-lock"></i>
                         </span>
                     </p>
                 </div>
-                <button id="login" type="button" className="button" onClick={( e ) => loginFunc(e, navigate)}>Login
-                </button>
-                <button id="newLogin" type="button" className="button is-dark" onClick={newLogin}>Create New Login
-                </button>
+
+                <button id="login" type="button" className="button m-3" onClick={( e ) => loginFunc(e, navigate)}>Login</button>
+                <button id="newLogin" type="button" className="button is-dark m-3" onClick={newLogin}>Create Account</button>
             </form>
         </div>
     );
