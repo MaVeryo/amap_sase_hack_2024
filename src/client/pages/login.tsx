@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
+import "./login.css";
 
 async function loginFunc( event: React.MouseEvent<HTMLButtonElement>, navigate: ReturnType<typeof useNavigate> ) {
     event.preventDefault();
@@ -34,6 +35,8 @@ const newLogin = async function ( event: React.MouseEvent<HTMLButtonElement> ) {
         user: document.getElementById('username') as HTMLInputElement | null,
         pass: document.getElementById('password') as HTMLInputElement | null
     };
+    console.log(input.user);
+    console.log(input.pass);
     if (input.user && input.pass) {
         const json = {user: input.user.value, pass: input.pass.value},
             body = JSON.stringify(json);
@@ -46,8 +49,11 @@ const newLogin = async function ( event: React.MouseEvent<HTMLButtonElement> ) {
 
         if (response.status === 200) {
             alert("New Login Created");
+            
         } else {
-            alert("No New Login Created");
+            
+            // alert("No New Login Created");
+            alert(response.status);
         }
     }
 }
@@ -56,9 +62,9 @@ export default function Login(): ReactElement {
     const navigate = useNavigate();
 
     return (
-        <div className="flex-vertical container">
-            <form className="is-fullheight">
-                <h1 className="is-size-6 is-font-family-primary mb-4">Login or Create New Account</h1>
+        <div className="flex-vertical-container">
+            <form className="is-fullheight"> 
+                <h1 className="is-size-6 is-font-family-primary mb-4">Login</h1>
                 <div className="field">
                     <p className="control has-icons-left has-icons-right">
                         <input id="username" className="input" type="text" name="username" placeholder="Username"/>
@@ -78,9 +84,9 @@ export default function Login(): ReactElement {
                         </span>
                     </p>
                 </div>
-                <button id="login" type="button" className="button" onClick={( e ) => loginFunc(e, navigate)}>Login
+                <button id="login" type="button" className="button" onClick={( e ) => loginFunc(e, navigate)}>Sign In
                 </button>
-                <button id="newLogin" type="button" className="button is-dark" onClick={newLogin}>Create New Login
+                <button id="newLogin" type="button" className="button is-dark" onClick={newLogin}>Sign Up
                 </button>
             </form>
         </div>

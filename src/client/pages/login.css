@@ -1,0 +1,44 @@
+/* 
+    we get background-color from index.css
+    .background {
+    color: #262739;
+} */
+
+.flex-vertical-container {
+    background-color: #1a1921; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20vw;
+    height: 30vh;
+    border-radius: 5%;
+    padding: 20px;
+    margin: auto;
+}
+
+.is-size-6-is-font-family-primary-mb-4{
+    font-size: 6px;
+    font-family: mb-4;
+}
+
+
+.field {
+    align-items: center;
+    display: flex;
+    border-radius: 5%;
+}
+
+.field:onclick {
+    background-color: #46435b;
+}
+
+.button {
+    border-radius: 0.5rem;
+    justify-content: space-around;
+    background-color: #292734;
+    border-color: #46435b;
+}
+
+.button:hover {
+    background-color: #46435b;
+}
