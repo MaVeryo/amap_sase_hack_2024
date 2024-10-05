@@ -35,7 +35,7 @@ try {
 
 // ----------------- ROUTES -----------------
 // --- GET ---
-app.get("/logout", (req: express.Request, res: express.Response) => {
+app.get("/logout", ( req: express.Request, res: express.Response ) => {
     if (req.session) {
         req.session.login = false;
         req.session.userId = null;
@@ -43,7 +43,7 @@ app.get("/logout", (req: express.Request, res: express.Response) => {
     res.status(200).send("Logged out");
 });
 
-app.get("/user-data", async (req: express.Request, res: express.Response) => {
+app.get("/user-data", async ( req: express.Request, res: express.Response ) => {
     if (req.session && req.session.login && req.session.userId) {
         const user = await users.findOne({_id: new ObjectId(req.session.userId)});
         if (user) {
@@ -55,8 +55,9 @@ app.get("/user-data", async (req: express.Request, res: express.Response) => {
     }
 });
 
+
 // --- POST ---
-app.post("/login", async (req: express.Request, res: express.Response) => {
+app.post("/login", async ( req: express.Request, res: express.Response ) => {
     let username = req.body.user;
     let password = req.body.pass;
 
@@ -77,7 +78,7 @@ app.post("/login", async (req: express.Request, res: express.Response) => {
     }
 });
 
-app.post("/register", async (req: express.Request, res: express.Response) => {
+app.post("/register", async ( req: express.Request, res: express.Response ) => {
     let username = req.body.user;
     let password = req.body.pass;
 
@@ -93,19 +94,59 @@ app.post("/register", async (req: express.Request, res: express.Response) => {
     }
 });
 
-app.post("/add-job", async (req: express.Request, res: express.Response) => {
+app.post("/add-job", async ( req: express.Request, res: express.Response ) => {
+    // Check if the user is logged in
     if (req.session && req.session.login && req.session.userId) {
         const user = await users.findOne({_id: new ObjectId(req.session.userId)});
         if (user) {
-            const job: Job = await getJobInfoFromLink(req.body.link);
+            // get the job information from the link
+            const job: Job | null = await getJobInfoFromLink(req.body.link);
+            if (!job) {
+                res.status(400).send("Failed to get job information");
+                return;
+            }
+
+            // add the job to the user's list of jobs and return the job to the client
+            user.jobs.push(job);
             await users.updateOne({_id: new ObjectId(req.session.userId)}, {$set: {jobs: user.jobs}});
-            res.status(200).json(user);
+            res.status(200).json(job);
         } else {
             res.status(400).send("User not found");
         }
     }
 });
 
+app.post("/update-job-status", async ( req: express.Request, res: express.Response ) => {
+    if (req.session && req.session.login && req.session.userId) {
+        const user = await users.findOne({_id: new ObjectId(req.session.userId)});
+        if (user) {
+            user.jobs = user.jobs.map(( job: Job ) => job._id.toString() === req.body.id ? {
+                ...job,
+                status: req.body.status
+            } : job);
+            await users.updateOne({_id: new ObjectId(req.session.userId)}, {$set: {jobs: user.jobs}});
+            res.status(200).send("Job updated");
+        } else {
+            res.status(400).send("User not found");
+        }
+    }
+});
+
+app.post("/delete-job", async ( req: express.Request, res: express.Response ) => {
+    if (req.session && req.session.login && req.session.userId) {
+        const user = await users.findOne({_id: new ObjectId(req.session.userId)});
+        console.log("DELETE", user);
+        if (user) {
+            user.jobs = user.jobs.filter(( job: Job ) => job._id.toString() !== req.body.id);
+            await users.updateOne({_id: new ObjectId(req.session.userId)}, {$set: {jobs: user.jobs}});
+            res.status(200).send("Job deleted");
+        } else {
+            res.status(400).send("User not found");
+        }
+    }
+});
+
+
 ViteExpress.listen(app, 3000, () =>
-  console.log("Server is listening on port 3000..."),
+    console.log("Server is listening on port 3000..."),
 );

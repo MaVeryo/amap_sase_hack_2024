@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Table } from "../components/table";
 import AddJobForm from "../components/AddJobForm";
 
-async function onLogout(navigate: Function) {
+async function onLogout( navigate: Function ) {
     console.log('Logging out');
     const response = await fetch('/logout', {
         method: 'GET',
@@ -28,28 +28,34 @@ async function getUserData() {
 
 function Dashboard() {
     const navigate = useNavigate();
-    const [userData, setUserData] = useState(null);
+    const [ userData, setUserData ] = useState(null);
 
     useEffect(() => {
-        getUserData().then((data) => setUserData(data));
+        getUserData().then(( data ) => setUserData(data));
     }, []);
+
+    const updateUserData = (jobs: any[]) => {
+        setUserData((prevState: any) => {
+            return {...prevState, jobs: jobs};
+        });
+    }
 
     return (
         <div className="flex-col">
             {userData && (
                 <>
                     {/* @ts-ignore - username is always defined */}
-                    <p>{userData.username}'s Dashboard</p>
+                    <h1>{userData.username}'s Dashboard</h1>
 
                     <AddJobForm userData={userData} setUserData={setUserData}/>
 
                     <div>
                         <h2>Jobs</h2>
-                        <Table userData={userData}/>
+                        <Table userData={userData} updateUserData={updateUserData}/>
                     </div>
                 </>
             )}
-            <button id="logoutButton" className="button is-info" onClick={() => onLogout(navigate)}>Logout</button>
+            <button id="logoutButton" className="button is-info mt-10" onClick={() => onLogout(navigate)}>Logout</button>
         </div>
     );
 }
