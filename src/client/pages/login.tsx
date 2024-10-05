@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+// import "./login.css";
 async function loginFunc( event: React.MouseEvent<HTMLButtonElement>, navigate: ReturnType<typeof useNavigate> ) {
     event.preventDefault();
     const input = {
@@ -56,32 +56,61 @@ export default function Login(): ReactElement {
     const navigate = useNavigate();
 
     return (
-        <div className="flex-vertical container">
-            <form className="is-fullheight">
-                <h1 className="is-size-6 is-font-family-primary mb-4">Login</h1>
-                <div className="field m-3">
-                    <p className="control has-icons-left has-icons-right">
-                        <input id="username" className="input p-3 rounded-md" type="text" name="username" placeholder="Username"/>
-                        <span className="icon is-small is-left">
+        <div className="flex flex-col container mx-auto p-6">
+            <form className="h-full">
+                <h1 className="is-size-10 text-3xl font-sans mb-4">Login</h1>
+                <div className="mb-3">
+                    <p className="relative">
+                        <input id="username" className="input p-3 rounded-md w-full" type="text" name="username" placeholder="Username" />
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
                             <i className="fas fa-envelope"></i>
                         </span>
-                        <span className="icon is-small is-right">
+                        <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
                             <i className="fas fa-check"></i>
                         </span>
                     </p>
                 </div>
-                <div className="field m-3">
-                    <p className="control has-icons-left">
-                        <input className="input p-3 rounded-md" id="password" type="password" name="password" placeholder="Password"/>
-                        <span className="icon is-small is-left">
+                <div className="mb-3">
+                    <p className="relative">
+                        <input className="input p-3 rounded-md w-full" id="password" type="password" name="password" placeholder="Password" />
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
                             <i className="fas fa-lock"></i>
                         </span>
                     </p>
                 </div>
 
-                <button id="login" type="button" className="button m-3" onClick={( e ) => loginFunc(e, navigate)}>Login</button>
-                <button id="newLogin" type="button" className="button is-dark m-3" onClick={newLogin}>Create Account</button>
+                <button id="login" type="button" className="bg-gray-800 text-white p-3 rounded-md mt-3 w-full hover:bg-blue-400" onClick={(e) => loginFunc(e, navigate)}>Login</button>
+                <button id="newLogin" type="button" className="bg-gray-800 text-white p-3 rounded-md mt-3 w-full hover:bg-blue-400" onClick={newLogin}>Create Account</button>
             </form>
         </div>
     );
+    // return (
+    //     <div className="flex-vertical container">
+    //         <form className="is-fullheight">
+    //             <h1 className="is-size-6 is-font-family-primary mb-4">Login</h1>
+    //             <div className="field m-3">
+    //                 <p className="control has-icons-left has-icons-right">
+    //                     <input id="username" className="input p-3 rounded-md" type="text" name="username" placeholder="Username"/>
+    //                     <span className="icon is-small is-left">
+    //                         <i className="fas fa-envelope"></i>
+    //                     </span>
+    //                     <span className="icon is-small is-right">
+    //                         <i className="fas fa-check"></i>
+    //                     </span>
+    //                 </p>
+    //             </div>
+    //             <div className="field m-3">
+    //                 <p className="control has-icons-left">
+    //                     <input className="input p-3 rounded-md" id="password" type="password" name="password" placeholder="Password"/>
+    //                     <span className="icon is-small is-left">
+    //                         <i className="fas fa-lock"></i>
+    //                     </span>
+    //                 </p>
+    //             </div>
+
+    //             <button id="login" type="button" className="button m-3" onClick={( e ) => loginFunc(e, navigate)}>Login</button>
+    //             <button id="newLogin" type="button" className="button is-dark m-3" onClick={newLogin}>Create Account</button>
+    //         </form>
+    //     </div>
+    // );
 }

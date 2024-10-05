@@ -25,6 +25,7 @@ try {
     const uri = `mongodb+srv://${process.env.USER}:${process.env.PASS}@${process.env.HOST}`;
     const client = new MongoClient(uri);
 
+
     await client.connect();
     users = client.db('AMAP').collection('users');
     console.log("Connected to database");
