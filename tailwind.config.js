@@ -9,7 +9,8 @@ export default {
       colors: {
         'background': '#16151c',
         'dashboard': '#151321',
-        'table': '#1f1e21'
+        'table': '#1f1e21',
+        'hover-color': 'blue-400'
       }
     },
   },
