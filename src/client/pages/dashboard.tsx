@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Table } from "../components/table";
-import AddJobForm from "./AddJobForm";
+import AddJobForm from "../components/AddJobForm";
 
 async function onLogout(navigate: Function) {
     console.log('Logging out');
