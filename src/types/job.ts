@@ -5,7 +5,10 @@ export type Job = {
     title: string;
     company: string;
     location: string;
-    salary: string;
     description: string;
     link: string;
+    datePosted?: Date | string;
+    dateApplied?: Date | string;
+    employmentType?: string;
+    status?: string;
 }
