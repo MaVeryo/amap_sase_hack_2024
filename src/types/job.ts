@@ -6,7 +6,4 @@ export type Job = {
     salary: string;
     description: string;
     link: string;
-    created: string;
-    updated: string;
-    user: string;   // This is the user's _id
 }
