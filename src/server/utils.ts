@@ -1,7 +1,5 @@
 import { Job } from "../types/job.js";
 import puppeteer from "puppeteer";
-import OpenAI from "openai";
-// const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 /**
  * Takes a link to a job posting, scrapes the page, and returns the job information.
@@ -30,21 +28,7 @@ export async function getJobInfoFromLink( link: string ): Promise<Job> {
     });
     await browser.close();
 
-    // send the job information to Google Cloud NLP to get the job description
 
 
     return job;
 }
-
-// const completion = await openai.chat.completions.create({
-//     model: "gpt-4o-mini",
-//     messages: [
-//         { role: "system", content: "You are a helpful assistant." },
-//         {
-//             role: "user",
-//             content: "Write a haiku about recursion in programming.",
-//         },
-//     ],
-// });
-//
-// console.log(completion.choices[0].message);
