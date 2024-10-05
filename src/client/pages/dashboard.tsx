@@ -45,7 +45,7 @@ function Dashboard() {
             {userData && (
                 <>
                     {/* @ts-ignore - username is always defined */}
-                    <p>{userData.username}'s Dashboard</p>
+                    <h1>{userData.username}'s Dashboard</h1>
 
                     <AddJobForm userData={userData} setUserData={setUserData}/>
 
@@ -55,7 +55,7 @@ function Dashboard() {
                     </div>
                 </>
             )}
-            <button id="logoutButton" className="button is-info" onClick={() => onLogout(navigate)}>Logout</button>
+            <button id="logoutButton" className="button is-info mt-10" onClick={() => onLogout(navigate)}>Logout</button>
         </div>
     );
 }

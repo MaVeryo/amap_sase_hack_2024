@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 export default function AddJobForm({ userData, setUserData }: { userData: any, setUserData:
     React.Dispatch<React.SetStateAction<any>> }) {
     const [ link, setLink ] = useState('');
@@ -24,9 +23,10 @@ export default function AddJobForm({ userData, setUserData }: { userData: any, s
     }
 
     return (
-        <div>
-            <h2>Add Job</h2>
-            <input type="text" placeholder="Link" value={link} onChange={( e ) => setLink(e.target.value)}/>
+        <div className="flex-row m-7">
+            <input type="text" placeholder="Link" value={link} onChange={( e ) => setLink(e.target.value)}
+                className="p-2.5 rounded-md m-2"
+            />
             <button onClick={addJob}>Add Job</button>
         </div>
     );
