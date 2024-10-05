@@ -1,5 +1,6 @@
 import { Job } from "../types/job.js";
 import puppeteer from "puppeteer";
+import { ObjectId } from "mongodb";
 
 /**
  * Takes a link to a job posting, scrapes the page, and returns the job information.
@@ -8,7 +9,7 @@ import puppeteer from "puppeteer";
  */
 export async function getJobInfoFromLink( link: string ): Promise<Job> {
     let job: Job = {
-        _id: '',
+        _id: new ObjectId(),
         title: '',
         company: '',
         location: '',

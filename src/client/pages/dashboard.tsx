@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Table } from "../components/table";
 import AddJobForm from "../components/AddJobForm";
 
-async function onLogout(navigate: Function) {
+async function onLogout( navigate: Function ) {
     console.log('Logging out');
     const response = await fetch('/logout', {
         method: 'GET',
@@ -28,11 +28,17 @@ async function getUserData() {
 
 function Dashboard() {
     const navigate = useNavigate();
-    const [userData, setUserData] = useState(null);
+    const [ userData, setUserData ] = useState(null);
 
     useEffect(() => {
-        getUserData().then((data) => setUserData(data));
+        getUserData().then(( data ) => setUserData(data));
     }, []);
+
+    const updateUserData = (jobs: any[]) => {
+        setUserData((prevState: any) => {
+            return {...prevState, jobs: jobs};
+        });
+    }
 
     return (
         <div className="flex-col">
@@ -45,7 +51,7 @@ function Dashboard() {
 
                     <div>
                         <h2>Jobs</h2>
-                        <Table userData={userData}/>
+                        <Table userData={userData} updateUserData={updateUserData}/>
                     </div>
                 </>
             )}

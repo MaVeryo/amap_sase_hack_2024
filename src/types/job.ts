@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export type Job = {
-    _id: string;
+    _id: ObjectId;
     title: string;
     company: string;
     location: string;

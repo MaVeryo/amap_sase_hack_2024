@@ -98,13 +98,29 @@ app.post("/add-job", async (req: express.Request, res: express.Response) => {
         const user = await users.findOne({_id: new ObjectId(req.session.userId)});
         if (user) {
             const job: Job = await getJobInfoFromLink(req.body.link);
+            user.jobs.push(job);
             await users.updateOne({_id: new ObjectId(req.session.userId)}, {$set: {jobs: user.jobs}});
-            res.status(200).json(user);
+            res.status(200).json(job);
         } else {
             res.status(400).send("User not found");
         }
     }
 });
+
+app.post("/delete-job", async (req: express.Request, res: express.Response) => {
+    if (req.session && req.session.login && req.session.userId) {
+        const user = await users.findOne({_id: new ObjectId(req.session.userId)});
+        console.log("DELETE", user);
+        if (user) {
+            user.jobs = user.jobs.filter((job: Job) => job._id.toString() !== req.body.id);
+            await users.updateOne({_id: new ObjectId(req.session.userId)}, {$set: {jobs: user.jobs}});
+            res.status(200).send("Job deleted");
+        } else {
+            res.status(400).send("User not found");
+        }
+    }
+});
+
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),

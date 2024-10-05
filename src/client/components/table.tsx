@@ -1,4 +1,22 @@
-export function Table( props: {userData: JSON} ) {
+export function Table( props: {userData: JSON, updateUserData: (jobs: any[]) => void} ) {
+
+    async function deleteJob( id: string ) {
+        const response = await fetch('/delete-job', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id }),
+        });
+
+        if (response.ok) {
+            const updatedJobs = props.userData.jobs.filter(( job: any ) => job._id !== id);
+            props.updateUserData(updatedJobs);
+        } else {
+            console.error('Failed to delete job');
+        }
+    }
+
     return <table>
         <thead>
         <tr>
@@ -8,6 +26,7 @@ export function Table( props: {userData: JSON} ) {
             <th>Salary</th>
             <th>Description</th>
             <th>Link</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -19,7 +38,10 @@ export function Table( props: {userData: JSON} ) {
                     <td>{job.location}</td>
                     <td>{job.salary}</td>
                     <td>{job.description}</td>
-                    <td><a href={job.link}>Link</a></td>
+                    <td><a href={job.link} target="_blank">Link</a></td>
+                    <td>
+                        <button className="button is-danger" onClick={() => deleteJob(job._id)}>Delete</button>
+                    </td>
                 </tr>
             })}
         </tbody>
