@@ -4,6 +4,8 @@ import 'dotenv/config';
 import cookie from 'cookie-session';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
 import { User } from "../types/user.js";
+import { Job } from "../types/job.js";
+import { getJobInfoFromLink } from "./utils.js";
 
 const app = express();
 
@@ -33,7 +35,7 @@ try {
 
 // ----------------- ROUTES -----------------
 // --- GET ---
-app.get("/logout", (req, res) => {
+app.get("/logout", (req: express.Request, res: express.Response) => {
     if (req.session) {
         req.session.login = false;
         req.session.userId = null;
@@ -54,7 +56,7 @@ app.get("/user-data", async (req: express.Request, res: express.Response) => {
 });
 
 // --- POST ---
-app.post("/login", async (req, res) => {
+app.post("/login", async (req: express.Request, res: express.Response) => {
     let username = req.body.user;
     let password = req.body.pass;
 
@@ -75,7 +77,7 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.post("/register", async (req, res) => {
+app.post("/register", async (req: express.Request, res: express.Response) => {
     let username = req.body.user;
     let password = req.body.pass;
 
@@ -88,6 +90,19 @@ app.post("/register", async (req, res) => {
         const newUser: User = {username: username, password: password, jobs: []};
         await users.insertOne(newUser);
         res.status(200).send("User added");
+    }
+});
+
+app.post("/add-job", async (req: express.Request, res: express.Response) => {
+    if (req.session && req.session.login && req.session.userId) {
+        const user = await users.findOne({_id: new ObjectId(req.session.userId)});
+        if (user) {
+            const job: Job = await getJobInfoFromLink(req.body.link);
+            await users.updateOne({_id: new ObjectId(req.session.userId)}, {$set: {jobs: user.jobs}});
+            res.status(200).json(user);
+        } else {
+            res.status(400).send("User not found");
+        }
     }
 });
 

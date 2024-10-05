@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Table } from "../components/table";
+import AddJobForm from "../components/AddJobForm";
 
 async function onLogout(navigate: Function) {
     console.log('Logging out');
@@ -23,6 +25,7 @@ async function getUserData() {
         console.error('Failed to get user data');
     }
 }
+
 function Dashboard() {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
@@ -37,32 +40,13 @@ function Dashboard() {
                 <>
                     {/* @ts-ignore - username is always defined */}
                     <p>{userData.username}'s Dashboard</p>
-                    <h2>Jobs</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Company</th>
-                            <th>Location</th>
-                            <th>Salary</th>
-                            <th>Description</th>
-                            <th>Link</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {/* @ts-ignore - jobs is always defined */}
-                        {userData.jobs.map(( job: any ) => (
-                            <tr key={job._id}>
-                                <td>{job.title}</td>
-                                <td>{job.company}</td>
-                                <td>{job.location}</td>
-                                <td>{job.salary}</td>
-                                <td>{job.description}</td>
-                                <td>{job.link}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+
+                    <AddJobForm userData={userData} setUserData={setUserData}/>
+
+                    <div>
+                        <h2>Jobs</h2>
+                        <Table userData={userData}/>
+                    </div>
                 </>
             )}
             <button id="logoutButton" className="button is-info" onClick={() => onLogout(navigate)}>Logout</button>
