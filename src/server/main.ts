@@ -3,6 +3,7 @@ import ViteExpress from "vite-express";
 import 'dotenv/config';
 import cookie from 'cookie-session';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
+import { User } from "../types/user.js";
 
 const app = express();
 
@@ -15,13 +16,6 @@ app.use(cookie({                                    // cookie middleware - the k
     keys: [ 'key1', 'key2' ]
 }));
 
-// middleware that always sends unauthenticated users to the login page
-// app.use( function( req,res,next) {
-//   if( req.session.login === true )
-//     next();
-// else
-// res.sendFile( __dirname + '/public/main.html' )
-// });
 
 // ----------------- MONGODB -----------------
 let users: Collection;
@@ -37,50 +31,66 @@ try {
     console.log("Error connecting to database");
 }
 
+
 // ----------------- ROUTES -----------------
 // --- GET ---
+app.get("/logout", (req, res) => {
+    if (req.session) {
+        req.session.login = false;
+        req.session.userId = null;
+    }
+    res.status(200).send("Logged out");
+});
+
+app.get("/user-data", async (req: express.Request, res: express.Response) => {
+    if (req.session && req.session.login && req.session.userId) {
+        const user = await users.findOne({_id: new ObjectId(req.session.userId)});
+        if (user) {
+            console.log("GET user-data", user?._id);
+            res.status(200).json(user);
+        } else {
+            res.status(400).send("User not found");
+        }
+    }
+});
 
 // --- POST ---
 app.post("/login", async (req, res) => {
-    // express.urlencoded will put your key value pairs
-    // into an object, where the key is the name of each
-    // form field and the value is whatever the user entered
-    let username = req.body.user
-    let password = req.body.pass
+    let username = req.body.user;
+    let password = req.body.pass;
 
     // Find the user with the matching username
-    let user = await users.findOne({username: username, password: password})
+    let user = await users.findOne({username: username, password: password});
 
     // If a user is found, check if the password matches
     if (user != null && user.username === username && user.password === password) {
         // @ts-ignore
-        req.session.user = user.username
+        req.session.userId = user._id;
         // @ts-ignore
-        req.session.login = true
+        req.session.login = true;
 
-        res.status(200).send("Login and Password correct")
+        res.status(200).json(user.docs);
     } else {
         console.log("not found")
-        res.status(400).send("Either Login or Password are incorrect")
+        res.status(400).send("Either Login or Password are incorrect");
     }
 });
 
 app.post("/register", async (req, res) => {
-    console.log(req.body)
-    let username = req.body.user
-    let password = req.body.pass
+    let username = req.body.user;
+    let password = req.body.pass;
 
     // Check if the username is already taken
-    let user = await users.findOne({user: username})
+    let user = await users.findOne({username: username});
     if (user != null) {
-        res.status(400).send("Username already taken")
+        res.status(400).send("Username already taken");
     } else {
         // Add the user to the database
-        await users.insertOne({user: username, pass: password})
-        res.status(200).send("User added")
+        const newUser: User = {username: username, password: password, jobs: []};
+        await users.insertOne(newUser);
+        res.status(200).send("User added");
     }
 });
-
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),
