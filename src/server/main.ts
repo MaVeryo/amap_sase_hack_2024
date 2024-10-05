@@ -26,7 +26,7 @@ app.use(cookie({                                    // cookie middleware - the k
 // ----------------- MONGODB -----------------
 let users: Collection;
 try {
-    const uri = `mongodb+srv://${process.env.APP_USER}:${process.env.PASS}@${process.env.HOST}`;
+    const uri = `mongodb+srv://${process.env.USER}:${process.env.PASS}@${process.env.HOST}`;
     const client = new MongoClient(uri);
 
 
