@@ -1,5 +1,6 @@
 import express from "express";
 import ViteExpress from "vite-express";
+
 import 'dotenv/config';
 import cookie from 'cookie-session';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
@@ -90,6 +91,8 @@ app.post("/register", async (req, res) => {
         res.status(200).send("User added");
     }
 });
+
+
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),
