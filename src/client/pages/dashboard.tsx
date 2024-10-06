@@ -73,17 +73,18 @@ function Dashboard() {
                         >
                             x
                         </button>
-                        {/* Other sidebar content */}
-                        <div className="mt-10">
-                            <button
-                                id="logoutButton"
-                                className="bg-background hover:bg-blue-400 text-white px-4 py-2 rounded"
-                                onClick={() => onLogout(navigate)}
-                            >
-                                Logout
-                            </button>
-                        </div>
+                    </div>    
+                    {/* Other sidebar content */}
+                    <div className="mt-10">
+                        <button
+                            id="logoutButton"
+                            className="bg-background hover:bg-blue-400 text-white px-4 py-2 rounded"
+                            onClick={() => onLogout(navigate)}
+                        >
+                            Logout
+                        </button>
                     </div>
+                    
                 </div>
             )}
         <div className="flex-col">
@@ -104,7 +105,7 @@ function Dashboard() {
                 <AddJobForm userData={userData} setUserData={setUserData}/>
 
                 <div>
-                    <h2>Jobs</h2>
+                    {/* <h2>Jobs</h2> */}
                     <Table userData={userData} updateUserData={updateUserData}/>
                 </div>
             </>
