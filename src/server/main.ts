@@ -7,7 +7,6 @@ import { MongoClient, ObjectId, Collection } from 'mongodb';
 import { User } from "../types/user.js";
 import { Job } from "../types/job.js";
 import { getJobInfoFromLink } from "./utils.js";
-import LlamaAI from 'llamaai';
 
 const app = express();
 
@@ -99,32 +98,6 @@ app.post("/register", async (req, res) => {
         res.status(200).send("User added");
     }
 });
-
-
-// --- LLAMAAI ---
-const apiToken = process.env.LLAMA_API;
-const llamaAPI = new LlamaAI(apiToken);
-// Test llama to see if we actually have it lmao
-app.get('/test-llama', async ( _, res) => {
-    console.log(apiToken)
-    try {
-        const apiRequestJson = {
-            messages: [{ role: "user", content: "I want a cake recipe" }],
-        };
-        const response = await llamaAPI.run(apiRequestJson);
-        console.log("hello!");
-
-        if (response.choices[0].message.function_call) {
-            const functionCall = response.choices[0].message.function_call;
-            console.log(`Function to call: ${functionCall}`);
-        }
-
-        res.json(response);
-    } catch (err) {
-        console.log(err);
-        res.json(err);
-    }
-  });
 
 
 ViteExpress.listen(app, 3000, () =>
