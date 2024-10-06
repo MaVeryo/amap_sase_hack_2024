@@ -1,6 +1,10 @@
 import { ReactElement } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 
 //TODO: have it go from userProfile to other pages. 
 // async function userProfFunc(event: React.MouseEvent<HTMLButtonElement>, navigate: ReturnType<typeof useNavigate>){
@@ -68,7 +72,18 @@ function UserProfile(): ReactElement {
           alert('Failed to update profile. Please try again.');
         }
       };
-    
+      
+      //styling
+      const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: 'bg-background',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        ...theme.applyStyles('dark', {
+          backgroundColor: '#1A2027',
+        }),
+      }));
 
     useEffect(() => {
         getUserData().then(( data ) => setUserData(data));
@@ -76,12 +91,32 @@ function UserProfile(): ReactElement {
 
     return(
         <div className="container mx-auto p-6 max-w-lg">
-            <h1 className="text-2xl font-bold mb-4">User Profile</h1>
-            <button 
+            
+            {userData && (
+                <>
+                {/* @ts-ignore - username is always defined */}
+                <h1 className="text-2xl font-bold mb-4">{userData.username}</h1>
+                <button 
                 id="toUser" 
                 type="button" 
                 className ="bg-background text-white p-3 rounded-md mt-3 absolute top-4 right-4 hover:bg-blue-400" 
-                onClick={(e) => dashboardFunc(e, navigate)}>PFP</button>
+                onClick={(e) => dashboardFunc(e, navigate)}>PFP
+                </button>
+
+                <Box sx={{ width: '100%', bgcolor: '#16151c'}}>
+                    <Stack spacing={2}>
+                        {/* <Item>{userData.password} </Item> */}
+                        <Item>Item 2</Item>
+                        <Item>Item 3</Item>
+                    </Stack>
+                </Box>
+
+                
+                </>
+               
+            )}
+            
+            
         </div>
        
   );
