@@ -29,8 +29,8 @@ try {
     await client.connect();
     users = client.db('AMAP').collection('users');
     console.log("Connected to database");
-} catch {
-    console.log("Error connecting to database");
+} catch (e) {
+    console.error(e);
 }
 
 
