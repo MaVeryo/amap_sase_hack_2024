@@ -9,11 +9,21 @@
     "build": "vite build"
   },
   "dependencies": {
+<<<<<<< Updated upstream
     "axios": "^1.7.7",
+=======
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.2",
+    "@mui/material": "^6.1.2",
+    "@tabler/icons-react": "^3.19.0",
+    "clsx": "^2.1.1",
+>>>>>>> Stashed changes
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+<<<<<<< Updated upstream
     "express": "^4.21.0",
 <<<<<<< Updated upstream
     "llamaai": "^1.0.4",
@@ -24,12 +34,21 @@
     "groq": "^3.59.1",
     "groq-sdk": "^0.7.0",
     "llamaai": "^1.0.4",
+=======
+    "express": "^4.18.2",
+    "framer-motion": "^11.11.1",
+>>>>>>> Stashed changes
     "mongodb": "6.9",
+    "next": "^14.2.14",
     "puppeteer": "^23.5.0",
     "react": "^18.3.1",
 >>>>>>> Stashed changes
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.26.2",
+<<<<<<< Updated upstream
+=======
+    "tailwind-merge": "^2.5.3",
+>>>>>>> Stashed changes
     "tsx": "^4.3.0",
     "vite-express": "*"
   },

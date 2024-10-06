@@ -27,7 +27,7 @@ app.use(cookie({                                    // cookie middleware - the k
 // ----------------- MONGODB -----------------
 let users: Collection;
 try {
-    const uri = `mongodb+srv://${process.env.USER}:${process.env.PASS}@${process.env.HOST}`;
+    let uri = `mongodb+srv://aldencutler84:uyK8xf2yPgimds7L@cluster0.vdsb5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
     const client = new MongoClient(uri);
 
     await client.connect();
@@ -85,6 +85,11 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
     let username = req.body.user;
     let password = req.body.pass;
+    let email=req.body.email;
+    let phone=req.body.phone;
+    let resume=req.body.resume;
+    let linkedin=req.body.linkedin;
+    let portfolio=req.body.portfolio;
 
     // Check if the username is already taken
     let user = await users.findOne({username: username});
@@ -92,7 +97,7 @@ app.post("/register", async (req, res) => {
         res.status(400).send("Username already taken");
     } else {
         // Add the user to the database
-        const newUser: User = {username: username, password: password, jobs: []};
+        const newUser: User = {username: username, password: password, jobs: [], email:email, phone:phone, resume:resume, experience:[],linkedin:linkedin,portfolio:portfolio};
         await users.insertOne(newUser);
         res.status(200).send("User added");
     }
