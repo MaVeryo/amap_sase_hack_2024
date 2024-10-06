@@ -65,6 +65,13 @@ export async function getJobInfoFromLink( link: string ): Promise<Job | null> {
     job.employmentType = job.employmentType?.replace(/&amp;/g, '&');
     job.status = 'waiting';
 
+    // if datePosted is a string that contains the word 'Posted', then it's probably from a Workday page
+    // In that case, we can get how long ago the job was posted and set the datePosted to that
+    if (typeof job.datePosted === 'string' && (job.datePosted.includes('Posted') || job.datePosted.includes('Days Ago'))) {
+        const daysAgo = parseInt(job.datePosted.replace('Posted ', '').replace(' Days Ago', ''));
+        job.datePosted = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
+    }
+
     return job;
 }
 
