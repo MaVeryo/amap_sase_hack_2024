@@ -1,7 +1,7 @@
 import { Job } from "../types/job.js";
 import puppeteer from "puppeteer";
 import { ObjectId } from "mongodb";
-
+import fs from 'fs';
 
 /**
  * Takes a link to a job posting, scrapes the page, and returns the job information.
@@ -19,7 +19,7 @@ export async function getJobInfoFromLink( link: string ): Promise<Job | null> {
     };
 
     // Scrape the page
-    const browser = await puppeteer.launch({headless: true});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(link);      // TODO: input sanitization/validation to make sure the link is valid
 
@@ -27,19 +27,44 @@ export async function getJobInfoFromLink( link: string ): Promise<Job | null> {
     const pageInfo = await page.evaluate(() => {
         return {page: document.querySelector('html')?.innerHTML};
     });
+    await browser.close();
     if (!pageInfo || !pageInfo.page) {
         return null;
     }
-    await browser.close();
     const html = pageInfo.page;
 
     if (link.includes('workday')) {
         job = parseWorkdayJob(html, link);
+    } else {
+        job = parseJob(html, link);
     }
 
-    // Parse the page
-
     return job;
+}
+
+/**
+ * Parses the job information from the page.
+ * @param html the html of the page
+ * @param link the link to the page
+ * @returns the job information
+ */
+function parseJob( html: string, link: string ): Job {
+    // TODO: implement this function
+    
+
+
+    return {
+        _id: new ObjectId(),
+        title: '',
+        company: '',
+        location: '',
+        description: '',
+        link: link,
+        datePosted: '',
+        dateApplied: '',
+        employmentType: '',
+        status: ''
+    };
 }
 
 

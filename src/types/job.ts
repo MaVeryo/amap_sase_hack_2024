@@ -11,4 +11,4 @@ export type Job = {
     dateApplied?: Date | string;
     employmentType?: string;
     status?: string;
-}
+};

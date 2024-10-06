@@ -50,7 +50,6 @@ function Dashboard() {
                     <AddJobForm userData={userData} setUserData={setUserData}/>
 
                     <div>
-                        <h2>Jobs</h2>
                         <Table userData={userData} updateUserData={updateUserData}/>
                     </div>
                 </>
