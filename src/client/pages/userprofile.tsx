@@ -22,26 +22,19 @@ async function getUserData() {
     }
 }
 
-type UserProfileProps = {
-    userData: { username: string; email: string };
-    updateUserData: (newData: { username: string; email: string }) => void;
-};
+async function dashboardFunc(event: React.MouseEvent<HTMLButtonElement>, navigate: ReturnType<typeof useNavigate> ){
+    event.preventDefault();
+
+    //response checker? 
+
+    navigate('/dashboard');
+}
+
 
 function UserProfile(): ReactElement {
     const navigate = useNavigate();
     const [ userData, setUserData ] = useState(null);
-    const [editMode, setEditMode] = useState(false); // Toggle edit mode
-    {/* @ts-ignore - username is always defined */}
-    const [formData, setFormData] = useState({ username: userData.username, email: userData.email });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSave = () => {
-        updateUserData(formData);
-        setEditMode(false);
-    };
+    const [editMode, setEditMode] = useState(false); // Toggle edit mode 
     
     const updateUserData = async (newData: { username: string; email: string }) => {
         try {
@@ -82,69 +75,15 @@ function UserProfile(): ReactElement {
     }, []);
 
     return(
-         <div className="container mx-auto p-6 max-w-lg">
-      <h1 className="text-2xl font-bold mb-4">User Profile</h1>
-      
-      {/* User Info */}
-      <div className="bg-background p-4 rounded-md shadow-md">
-        {!editMode ? (
-          <>
-            {/* @ts-ignore - username is always defined */}
-            <p className="text-lg"><strong>Username:</strong> {userData.username}</p>
-            {/* @ts-ignore - username is always defined */}
-            <p className="text-lg"><strong>Email:</strong> {userData.email}</p>
-            <button
-              className="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-700"
-              onClick={() => setEditMode(true)}
-            >
-              Edit Profile
-            </button>
-          </>
-        ) : (
-          <>
-            {/* Edit Form */}
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md"
-                />
-              </div>
-
-              <div className="flex space-x-4">
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-                  onClick={handleSave}
-                >
-                  Save Changes
-                </button>
-                <button
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
-                  onClick={() => setEditMode(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+        <div className="container mx-auto p-6 max-w-lg">
+            <h1 className="text-2xl font-bold mb-4">User Profile</h1>
+            <button 
+                id="toUser" 
+                type="button" 
+                className ="bg-background text-white p-3 rounded-md mt-3 absolute top-4 right-4 hover:bg-blue-400" 
+                onClick={(e) => dashboardFunc(e, navigate)}>PFP</button>
+        </div>
+       
   );
 };
 
