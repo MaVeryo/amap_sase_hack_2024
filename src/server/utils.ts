@@ -47,11 +47,23 @@ export async function getJobInfoFromLink( link: string ): Promise<Job | null> {
 
     // Check if the page is a Workday page since it has a predictable format
     // It's a lot faster to check this first than to run the AI model on every page
-    if (link.includes('workday')) {
-        job = parseWorkdayJob(html, link);
-    } else {
-        job = await parseJob(html, link);
+    // if (link.includes('workday')) {
+    //     job = parseWorkdayJob(html, link);
+    // } else {
+    //     job = await parseJob(html, link);
+    // }
+    job = await parseJob(html, link);
+    if (!job) {
+        return null;
     }
+
+    job.title = job.title?.replace(/&amp;/g, '&');
+    job.company = job.company?.replace(/&amp;/g, '&');
+    job.location = job.location?.replace(/&amp;/g, '&');
+    job.description = job.description?.replace(/&amp;/g, '&');
+    job.salary = job.salary?.replace(/&amp;/g, '&');
+    job.employmentType = job.employmentType?.replace(/&amp;/g, '&');
+    job.status = 'waiting';
 
     return job;
 }
@@ -140,15 +152,15 @@ async function parseJob( html: string, link: string ): Promise<Job | null> {
     console.log(match);
 
     // set the job information and replace any HTML entities (usually just &amp;, but if there are more, they can be added here)
-    job.title = JSON.parse(match).title.replace(/&amp;/g, '&');
-    job.company = JSON.parse(match).company.replace(/&amp;/g, '&');
-    job.location = JSON.parse(match).location.replace(/&amp;/g, '&');
-    job.description = JSON.parse(match).description.replace(/&amp;/g, '&');
-    job.salary = JSON.parse(match).salary.replace(/&amp;/g, '&');
+    job.title = JSON.parse(match).title;
+    job.company = JSON.parse(match).company;
+    job.location = JSON.parse(match).location;
+    job.description = JSON.parse(match).description;
+    job.salary = JSON.parse(match).salary;
     job.datePosted = JSON.parse(match).datePosted;
     job.dateApplied = new Date();
-    job.employmentType = JSON.parse(match).employmentType.replace(/&amp;/g, '&');
-    job.status = JSON.parse(match).status.replace(/&amp;/g, '&');
+    job.employmentType = JSON.parse(match).employmentType;
+    job.status = JSON.parse(match).status;
 
     return job;
 }
