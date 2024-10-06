@@ -1,22 +1,12 @@
 import React, { ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< Updated upstream
-
-async function loginFunc( event: React.MouseEvent<HTMLButtonElement>, navigate: ReturnType<typeof useNavigate> ) {
-    event.preventDefault();
-    const input = {
-        user: document.getElementById('username') as HTMLInputElement | null,
-        pass: document.getElementById('password') as HTMLInputElement | null
-    };
-    if (input.user && input.pass) {
-        const json = {user: input.user.value, pass: input.pass.value},
-            body = JSON.stringify(json);
-=======
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
->>>>>>> Stashed changes
+
+
+
 
 const style = {
   position: 'absolute',
@@ -98,37 +88,6 @@ export default function Login(): ReactElement {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-<<<<<<< Updated upstream
-    return (
-        <div className="flex-vertical container">
-            <form className="is-fullheight">
-                <h1 className="is-size-6 is-font-family-primary mb-4">Login</h1>
-                <div className="field m-3">
-                    <p className="control has-icons-left has-icons-right">
-                        <input id="username" className="input p-3 rounded-md" type="text" name="username" placeholder="Username"/>
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-envelope"></i>
-                        </span>
-                        <span className="icon is-small is-right">
-                            <i className="fas fa-check"></i>
-                        </span>
-                    </p>
-                </div>
-                <div className="field m-3">
-                    <p className="control has-icons-left">
-                        <input className="input p-3 rounded-md" id="password" type="password" name="password" placeholder="Password"/>
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-lock"></i>
-                        </span>
-                    </p>
-                </div>
-
-                <button id="login" type="button" className="button m-3" onClick={( e ) => loginFunc(e, navigate)}>Login</button>
-                <button id="newLogin" type="button" className="button is-dark m-3" onClick={newLogin}>Create Account</button>
-            </form>
-        </div>
-    );
-=======
   return (
     <div className="flex flex-col container mx-auto p-6">
       <form className="h-full">
@@ -233,5 +192,4 @@ export default function Login(): ReactElement {
       </Modal>
     </div>
   );
->>>>>>> Stashed changes
 }

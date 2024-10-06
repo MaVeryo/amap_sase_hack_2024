@@ -1,12 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-<<<<<<< Updated upstream
-async function onLogout(navigate: Function) {
-=======
 
 async function onLogout( navigate: Function ) {
->>>>>>> Stashed changes
     console.log('Logging out');
     const response = await fetch('/logout', {
         method: 'GET',
@@ -28,20 +24,9 @@ async function getUserData() {
         console.error('Failed to get user data');
     }
 }
-<<<<<<< Updated upstream
 function Dashboard() {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
-=======
-
-
-  
-
-function Dashboard() {
-    const navigate = useNavigate();
-    const [ userData, setUserData ] = useState(null);
-  
->>>>>>> Stashed changes
 
     useEffect(() => {
         getUserData().then((data) => setUserData(data));
