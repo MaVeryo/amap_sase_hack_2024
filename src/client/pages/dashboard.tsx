@@ -44,9 +44,10 @@ function Dashboard() {
         setIsSidebarVisible(!isSidebarVisible);
     };
 
-
+    console.log(userData);  
     return (
-        <div className="flex h-screen"> 
+        
+        <div className="flex h-screen">
             {/* Button to Toggle Sidebar*/}
             <button
                 className={`absolute top-4 ${isSidebarVisible ? 'right-4' : 'left-4'} bg-background hover:bg-blue-400 text-white px-4 py-2 rounded`}
@@ -58,7 +59,7 @@ function Dashboard() {
                         <div className="w-4/10 bg-background p-4 justify-end">
                         <h1 className="text-xl font-bold">Dashboard</h1>
                         {/* <p>This column takes up 20% of the screen width.</p> */}
-                    
+
                         <div className="mt-auto">
                                 <button
                                     id="logoutButton"
@@ -69,27 +70,28 @@ function Dashboard() {
                                 </button>
                         </div>
                     </div>
+            )}
+
+            {/*TODO:  Weird case where when i try to add the table there's a chance that none of the data show up*/}
+            <div className ={"flex-grow bg-background p-4 flex flex-col  ${isSidebarVisible ? 'w-4/5' : 'w-full'}"}>  
+                  {/* Top Section: Dashboard Title */}
+                  <div>
+                    {/* this doesn't show up when relaoding webpage? not storing userData? */}
+                    {userData && (
+                      <>
+                            {/* @ts-ignore - username is always defined */}
+                            <h1 className="text-2xl font-bold">{userData.username}'s Jobs</h1>
+                            <p className="text-gray-600">Here are your jobs:</p> {/*comment this out later */}
+                        </>
                     )}
-                
-                <div className ={`flex-grow bg-background p-4 flex flex-col  ${isSidebarVisible ? 'w-4/5' : 'w-full'}`}>
-                    {/* Top Section: Dashboard Title */}
-                 <div>
-                     {userData && (
-                       <>
-                             {/* @ts-ignore - username is always defined */}
-                             <h1 className="text-2xl font-bold">{userData.username}'s Jobs</h1>
-                             <p className="text-gray-600">Here are your jobs:</p> {/*comment this out later */}
-                         </>
-                     )}
-                    </div>
-                    <div>
-                                 <h2>Jobs</h2>
-                                 {/* @ts-ignore - username is always defined */}
-                                <Table userData={userData} updateUserData={updateUserData}/>
-                         </div> 
-                </div>
+                   </div>
+                   <div>
+                                <h2>Jobs</h2>
+                                {/* @ts-ignore - username is always defined */}
+                               <Table userData={userData} updateUserData={updateUserData}/>
+                        </div> 
             </div>
-        
+        </div>
     );
 }
 

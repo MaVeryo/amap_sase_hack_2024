@@ -8,6 +8,7 @@ async function loginFunc( event: React.MouseEvent<HTMLButtonElement>, navigate: 
         pass: document.getElementById('password') as HTMLInputElement | null
     };
     if (input.user && input.pass) {
+        {/*check username/password strength*/}
         const json = {user: input.user.value, pass: input.pass.value},
             body = JSON.stringify(json);
 
