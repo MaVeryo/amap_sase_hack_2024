@@ -1,3 +1,5 @@
+
+
 export function Table( props: {userData: JSON, updateUserData: ( jobs: any[] ) => void} ) {
     async function deleteJob( id: string ) {
         const response = await fetch('/delete-job', {
@@ -7,7 +9,7 @@ export function Table( props: {userData: JSON, updateUserData: ( jobs: any[] ) =
             },
             body: JSON.stringify({id}),
         });
-
+    
         if (response.ok) {
             // @ts-ignore - jobs is always defined because of the structure of the JSON object
             const updatedJobs = props.userData.jobs.filter(( job: any ) => job._id !== id);
@@ -16,10 +18,14 @@ export function Table( props: {userData: JSON, updateUserData: ( jobs: any[] ) =
             console.error('Failed to delete job');
         }
     }
+    
+    // const jobs = props.userData.jobs.map((job:any)) || [];
 
-    return <table>
+    return(
+
+     <table>
         <thead>
-        <tr>
+        <tr className="bg-background text-white">
             <th>Title</th>
             <th>Company</th>
             <th>Location</th>
@@ -32,10 +38,10 @@ export function Table( props: {userData: JSON, updateUserData: ( jobs: any[] ) =
         </tr>
         </thead>
         <tbody>
+            
         {/* @ts-ignore - jobs is always defined */}
         {props.userData.jobs.map(( job: any ) => {
             return <tr key={job._id}>
-                <td className="text-left">{job.title}</td>
                 <td className="text-left">{job.company}</td>
                 <td className="text-left">{job.location}</td>
                 {/*<td className="text-left">{job.description.length > 100 ? job.description.substring(0, 100) + '...' : job.description}</td>*/}
@@ -74,5 +80,6 @@ export function Table( props: {userData: JSON, updateUserData: ( jobs: any[] ) =
             </tr>
         })}
         </tbody>
-    </table>;
+    </table>
+    );
 }
