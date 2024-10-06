@@ -45,13 +45,6 @@ export async function getJobInfoFromLink( link: string ): Promise<Job | null> {
         fs.writeFileSync('debug.html', html);
     }
 
-    // Check if the page is a Workday page since it has a predictable format
-    // It's a lot faster to check this first than to run the AI model on every page
-    // if (link.includes('workday')) {
-    //     job = parseWorkdayJob(html, link);
-    // } else {
-    //     job = await parseJob(html, link);
-    // }
     job = await parseJob(html, link);
     if (!job) {
         return null;
@@ -71,6 +64,12 @@ export async function getJobInfoFromLink( link: string ): Promise<Job | null> {
         const daysAgo = parseInt(job.datePosted.replace('Posted ', '').replace(' Days Ago', ''));
         job.datePosted = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
     }
+    // if datePosted is a string in the format 'MM/DD/YYYY', then convert it to a Date object
+    if (typeof job.datePosted === 'string' && job.datePosted.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+        const date = job.datePosted.split('/');
+        job.datePosted = new Date(parseInt(date[2]), parseInt(date[0]) - 1, parseInt(date[1]));
+    }
+    console.log(job);
 
     return job;
 }
@@ -137,7 +136,7 @@ async function parseJob( html: string, link: string ): Promise<Job | null> {
                         "You should return the information in the following JSON format: " +
                         "{title: 'Job Title', company: 'Company Name', location: 'Location', description: 'Job Description', salary: 'Salary', datePosted: 'Date Posted', employmentType: 'Employment Type'}." +
                         "If you are unable to find any of the information, you can set it to 'Not found'." +
-                        "Only respond with the JSON object. Do not include any extra text or information." +
+                        "Only respond with the JSON object. Do not include any extra text or information that is not included in one of the above fields." +
                         "PAGE: " + html,
                 },
             ],
@@ -152,22 +151,23 @@ async function parseJob( html: string, link: string ): Promise<Job | null> {
         return null;
     }
 
-    // I don't trust the AI to not add any extra information, so this just gets the text between the curly braces
-    const regex = /{([^}]*)}/;
-    let match = response.choices[0]?.message?.content.match(regex) || "{}";
-    match = match[0].replace(/'/g, ' ');
-    console.log(match);
+    // I don't trust the AI to not add any extra information, so this just cuts off the response at the first closing bracket
+    const match: RegExpMatchArray | null = response.choices[0].message.content.match(/\{[^}]*\}/);
+    if (!match) {
+        return null;
+    }
+    let res = match[0];
 
     // set the job information and replace any HTML entities (usually just &amp;, but if there are more, they can be added here)
-    job.title = JSON.parse(match).title;
-    job.company = JSON.parse(match).company;
-    job.location = JSON.parse(match).location;
-    job.description = JSON.parse(match).description;
-    job.salary = JSON.parse(match).salary;
-    job.datePosted = JSON.parse(match).datePosted;
+    job.title = JSON.parse(res).title;
+    job.company = JSON.parse(res).company;
+    job.location = JSON.parse(res).location;
+    job.description = JSON.parse(res).description;
+    job.salary = JSON.parse(res).salary;
+    job.datePosted = JSON.parse(res).datePosted;
     job.dateApplied = new Date();
-    job.employmentType = JSON.parse(match).employmentType;
-    job.status = JSON.parse(match).status;
+    job.employmentType = JSON.parse(res).employmentType;
+    job.status = JSON.parse(res).status;
 
     return job;
 }
