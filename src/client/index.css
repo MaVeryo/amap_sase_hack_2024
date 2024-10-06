@@ -60,23 +60,23 @@ button:focus-visible {
 }
 
 table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 1em;
-    border: 1px solid #e2e8f0;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1em;
+  border: 1px solid #e2e8f0;
 }
 th {
-    text-align: left;
-    padding: 0.5em 1em;
-    border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  padding: 0.5em 1em;
+  border-bottom: 1px solid #e2e8f0;
 }
 td {
-    padding: 0.5em 1em;
-    border-bottom: 1px solid #e2e8f0;
+  padding: 0.5em 1em;
+  border-bottom: 1px solid #e2e8f0;
 }
 thead {
-    background-color: #f9f9f9;
-    color: #1a1a1a;
+  background-color: #f9f9f9;
+  color: #1a1a1a;
 }
 
 @media (prefers-color-scheme: light) {
