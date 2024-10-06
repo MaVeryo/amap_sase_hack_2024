@@ -5,12 +5,9 @@ import 'dotenv/config';
 import cookie from 'cookie-session';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
 import { User } from "../types/user.js";
-<<<<<<< Updated upstream
-=======
 import { Job } from "../types/job.js";
 import { getJobInfoFromLink } from "./utils.js";
 import LlamaAI from 'llamaai';
->>>>>>> Stashed changes
 
 const app = express();
 
