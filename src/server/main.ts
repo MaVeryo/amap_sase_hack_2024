@@ -1,5 +1,6 @@
 import express from "express";
 import ViteExpress from "vite-express";
+
 import 'dotenv/config';
 import cookie from 'cookie-session';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
@@ -22,29 +23,29 @@ app.use(cookie({                                    // cookie middleware - the k
 // ----------------- MONGODB -----------------
 let users: Collection;
 try {
-    const uri = `mongodb+srv://${process.env.USER}:${process.env.PASS}@${process.env.HOST}`;
+    let uri = `mongodb+srv://aldencutler84:uyK8xf2yPgimds7L@cluster0.vdsb5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
     const client = new MongoClient(uri);
-
 
     await client.connect();
     users = client.db('AMAP').collection('users');
     console.log("Connected to database");
-} catch (e) {
-    console.error(e);
+} catch {
+    console.log("Error connecting to database");
 }
 
 
 // ----------------- ROUTES -----------------
 // --- GET ---
-app.get("/logout", ( req: express.Request, res: express.Response ) => {
+app.get("/logout", (req, res) => {
     if (req.session) {
+        console.log("logging out user", req.session.userId);
         req.session.login = false;
         req.session.userId = null;
     }
     res.status(200).send("Logged out");
 });
 
-app.get("/user-data", async ( req: express.Request, res: express.Response ) => {
+app.get("/user-data", async (req: express.Request, res: express.Response) => {
     if (req.session && req.session.login && req.session.userId) {
         const user = await users.findOne({_id: new ObjectId(req.session.userId)});
         if (user) {
@@ -53,12 +54,14 @@ app.get("/user-data", async ( req: express.Request, res: express.Response ) => {
         } else {
             res.status(400).send("User not found");
         }
+    } else {
+        // redirect to login page
+        res.status(400).send("Not logged in");
     }
 });
 
-
 // --- POST ---
-app.post("/login", async ( req: express.Request, res: express.Response ) => {
+app.post("/login", async (req, res) => {
     let username = req.body.user;
     let password = req.body.pass;
 
@@ -79,9 +82,14 @@ app.post("/login", async ( req: express.Request, res: express.Response ) => {
     }
 });
 
-app.post("/register", async ( req: express.Request, res: express.Response ) => {
+app.post("/register", async (req, res) => {
     let username = req.body.user;
     let password = req.body.pass;
+    let email=req.body.email;
+    let phone=req.body.phone;
+    let linkedin=req.body.linkedin;
+    let portfolio=req.body.portfolio;
+    let resume="";
 
     // Check if the username is already taken
     let user = await users.findOne({username: username});
@@ -89,7 +97,7 @@ app.post("/register", async ( req: express.Request, res: express.Response ) => {
         res.status(400).send("Username already taken");
     } else {
         // Add the user to the database
-        const newUser: User = {username: username, password: password, jobs: []};
+        const newUser: User = {username: username, password: password, jobs: [], email:email, phone:phone, resume:resume, experience:[] ,linkedin:linkedin, portfolio:portfolio};
         await users.insertOne(newUser);
         res.status(200).send("User added");
     }
@@ -114,6 +122,8 @@ app.post("/add-job", async ( req: express.Request, res: express.Response ) => {
         } else {
             res.status(400).send("User not found");
         }
+    } else {
+        res.status(400).send("Not logged in");
     }
 });
 
@@ -130,6 +140,8 @@ app.post("/update-job-status", async ( req: express.Request, res: express.Respon
         } else {
             res.status(400).send("User not found");
         }
+    } else {
+        res.status(400).send("Not logged in");
     }
 });
 
@@ -144,10 +156,12 @@ app.post("/delete-job", async ( req: express.Request, res: express.Response ) =>
         } else {
             res.status(400).send("User not found");
         }
+    } else {
+        res.status(400).send("Not logged in");
     }
 });
 
 
 ViteExpress.listen(app, 3000, () =>
-    console.log("Server is listening on port 3000..."),
+  console.log("Server is listening on port 3000..."),
 );

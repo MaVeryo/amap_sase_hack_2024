@@ -17,12 +17,13 @@ export function Table( props: {userData: JSON, updateUserData: ( jobs: any[] ) =
         }
     }
 
-    return <table>
+    return <table className="ml-16 max-w-screen-sm md:max-w-screen-lg lg:max-w-fit">
         <thead>
         <tr>
             <th>Title</th>
             <th>Company</th>
             <th>Location</th>
+            <th>Salary</th>
             {/*<th>Description</th>*/}
             <th>Date Posted</th>
             <th>Date Applied</th>
@@ -38,6 +39,7 @@ export function Table( props: {userData: JSON, updateUserData: ( jobs: any[] ) =
                 <td className="text-left">{job.title}</td>
                 <td className="text-left">{job.company}</td>
                 <td className="text-left">{job.location}</td>
+                <td>{job.salary}</td>
                 {/*<td className="text-left">{job.description.length > 100 ? job.description.substring(0, 100) + '...' : job.description}</td>*/}
                 <td>{job.datePosted.substring(0, 10)}</td>
                 <td>{job.dateApplied.substring(0, 10)}</td>
