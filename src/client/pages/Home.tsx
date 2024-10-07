@@ -15,10 +15,10 @@ const Home: React.FC = () => {
             </div>
             <div className="flex space-x-4 mt-4">
                 <button id="login" type="button" className="bg-gray-800 text-white p-2 rounded-md hover:bg-blue-400">
-                    <a href="/login#/login">Login</a>
+                    <a href="/#/login">Login</a>
                 </button>
                 <button id="newLogin" type="button" className="bg-gray-800 text-white p-2 rounded-md hover:bg-blue-400">
-                    <a href="/about#/about">Learn More</a>
+                    <a href="/#/about">Learn More</a>
                 </button>
             </div>
         </div>
