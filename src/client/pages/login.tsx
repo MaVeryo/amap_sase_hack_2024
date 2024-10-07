@@ -162,7 +162,7 @@ export default function Login(): ReactElement {
             {/* Users Phone */}
             <div className="mb-3">
               <p className="relative">
-                <input className="input p-3 rounded-md w-full" id="phone" type="phone" name="phone" placeholder="Phone #" />
+                <input className="input p-3 rounded-md w-full" id="phone" type="text" name="phone" placeholder="Phone #" />
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
                   <i className="fas fa-check"></i>
                 </span>

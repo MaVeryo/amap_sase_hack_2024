@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import Navigation from "../client/components/Naviagtion";
 import Profile from "./pages/Profile";
+import Home from "./pages/Home";
 
 function App() {
 
@@ -13,7 +14,8 @@ function App() {
             <HashRouter>
                 <Navigation />
                 <Routes>
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
                     <Route  path="/dashboard" element={<Dashboard />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>

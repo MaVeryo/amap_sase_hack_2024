@@ -83,9 +83,9 @@ app.post("/register", async (req, res) => {
     let password = req.body.pass;
     let email=req.body.email;
     let phone=req.body.phone;
-    let resume=req.body.resume;
     let linkedin=req.body.linkedin;
     let portfolio=req.body.portfolio;
+    let resume="";
 
     // Check if the username is already taken
     let user = await users.findOne({username: username});
@@ -93,7 +93,7 @@ app.post("/register", async (req, res) => {
         res.status(400).send("Username already taken");
     } else {
         // Add the user to the database
-        const newUser: User = {username: username, password: password, jobs: [], email:email, phone:phone, resume:resume, experience:[],linkedin:linkedin,portfolio:portfolio};
+        const newUser: User = {username: username, password: password, jobs: [], email:email, phone:phone, resume:resume, experience:[] ,linkedin:linkedin, portfolio:portfolio};
         await users.insertOne(newUser);
         res.status(200).send("User added");
     }
