@@ -9,6 +9,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import PersonIcon from '@mui/icons-material/Person';
 import LinkIcon from '@mui/icons-material/Link';
 import EditIcon from '@mui/icons-material/Edit';
+import FileUpload from '../components/fileUpload'; 
 
 async function getUserData() {
     const response = await fetch('/user-data', {
@@ -62,7 +63,7 @@ export default function Profile() {
                 Resume
               </Typography>
               <Typography sx={{ color: 'white', fontSize: 16, paddingLeft: "2rem" }}>
-                Resume.pdf
+                <FileUpload/>
               </Typography>
             </CardContent>
             <FileUploadIcon sx={{ color: 'white', marginRight: "15px", alignSelf: "center" }} />
