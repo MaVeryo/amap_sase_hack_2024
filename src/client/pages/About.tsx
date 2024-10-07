@@ -5,7 +5,7 @@ export function About() {
     const team = [
         { name: 'Alden Cutler', role: 'Fullstack Developer', linkedin: 'https://www.linkedin.com/in/aldencutler/', github: 'https://github.com/AldenCutler', imgPath: '/src/client/assets/alden.png' },
         { name: 'Mahit Verma', role: 'Fullstack Developer', linkedin: 'https://www.linkedin.com/in/mahit-verma/', github: 'https://github.com/MaVeryo', imgPath: '/src/client/assets/mahit.png' },
-        { name: 'Pakorn Liengsawangwong', role: 'Fullstack Developer', linkedin: '#', github: 'https://github.com/pako490', imgPath: '/src/client/assets/pakorn.png' },
+        { name: 'Pakorn Liengsawangwong', role: 'Fullstack Developer', linkedin: 'https://www.linkedin.com/in/pakornlieng/', github: 'https://github.com/pako490', imgPath: '/src/client/assets/pakorn.png' },
     ]
 
     // @ts-ignore
