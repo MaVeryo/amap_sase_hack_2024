@@ -3,8 +3,9 @@ import "./App.css";
 import {BrowserRouter as Router, Routes, Route, HashRouter} from 'react-router-dom';
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
-import Navigation from "../client/components/Naviagtion";
+import Navigation from "./components/Naviagtion";
 import Profile from "./pages/Profile";
+import { About } from "./pages/About";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/" element={<Login />} />
                     <Route  path="/dashboard" element={<Dashboard />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/about" element={<About/>} />
                 </Routes>
             </HashRouter>
 
