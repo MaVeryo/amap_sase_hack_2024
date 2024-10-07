@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import PersonIcon from '@mui/icons-material/Person';
 import LinkIcon from '@mui/icons-material/Link';
@@ -58,7 +58,7 @@ export default function Profile() {
       
           {/* Resume Card */}
           <Card className="col-span-2 row-span-1 w-[90%] h-[100px] flex justify-between items-start" sx={{ backgroundColor: "black" }}>
-            <CardContent className="flex flex-col justify-start">
+            <CardContent className="flex flex-col justify-left">
               <Typography sx={{ color: 'white', fontSize: 30 }}>
                 Resume
               </Typography>
@@ -66,8 +66,7 @@ export default function Profile() {
                 <FileUpload/>
               </Typography>
             </CardContent>
-            <FileUploadIcon sx={{ color: 'white', marginRight: "15px", alignSelf: "center" }} />
-          
+
           </Card>
       
           {/* Links Card */}
