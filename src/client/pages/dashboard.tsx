@@ -38,8 +38,8 @@ function Dashboard() {
             {userData && (
                 <>
                     {/* @ts-ignore - username is always defined */}
-                    <p>{userData.username}'s Dashboard</p>
-                    <h2>Jobs</h2>
+                    <h1>{userData.username}'s Dashboard</h1>
+                    {/* <h2>Jobs</h2> */}
                     <table>
                         <thead>
                         <tr>
@@ -67,7 +67,7 @@ function Dashboard() {
                     </table>
                 </>
             )}
-            <button id="logoutButton" className="button is-info" onClick={() => onLogout(navigate)}>Logout</button>
+            {/* <button id="logoutButton" className="button is-info" onClick={() => onLogout(navigate)}>Logout</button> */}
         </div>
     );
 }
